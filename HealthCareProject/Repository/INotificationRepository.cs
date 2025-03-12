@@ -6,7 +6,7 @@ namespace HealthCareProject.Repository
     {
         Task<Notification> SendNotificationAsync(int userId, string type, string message, string status);
         Task<List<Notification>> GetUserNotificationsAsync(int userId);
-        Task AddNotificationAsync(int userId, NotificationType type, string message);
+        Task AddNotificationAsync(int userId, string message);
         Task<List<Notification>> GetNotificationsByUserIdAsync(int userId);
     }
 }

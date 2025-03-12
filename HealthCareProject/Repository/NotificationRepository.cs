@@ -32,12 +32,11 @@ namespace HealthCareProject.Repository
                 .ToListAsync();
         }
 
-        public async Task AddNotificationAsync(int userId, NotificationType type, string message)
+        public async Task AddNotificationAsync(int userId, string message)
         {
             var notification = new Notification
             {
                 UserId = userId,
-                Type = type,
                 Message = message
             };
             await _context.Notifications.AddAsync(notification);

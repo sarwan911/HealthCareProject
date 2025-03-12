@@ -17,7 +17,7 @@ namespace HealthCareProject.Repository
             _context = context;
         }
 
-        public async Task<Appointment> BookAppointmentAsync(int sessionId, int patientId)
+        public async Task<Appointment> BookAppointmentAsync(int appointmentId, int sessionId, int patientId, string status)
         {
             return await _context.Appointments
                 .FromSqlRaw("EXEC sp_BookAppointment @p0, @p1, @p2",

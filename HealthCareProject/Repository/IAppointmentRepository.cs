@@ -3,7 +3,7 @@ namespace HealthCareProject.Repository
 {
     public interface IAppointmentRepository
     {
-    Task<Appointment> BookAppointmentAsync(int sessionId, int patientId);
+    Task<Appointment> BookAppointmentAsync(int appointmentId, int sessionId, int patientId, string status);
     Task<Appointment> RescheduleAppointmentAsync(int appointmentId, int newSessionId);
     Task<Appointment> CancelAppointmentAsync(int appointmentId);
     Task<Appointment> GetAppointmentByIdAsync(int appointmentId);

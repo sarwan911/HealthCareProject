@@ -21,7 +21,7 @@ builder.Services.AddScoped<IAuth>(provider =>
 });
 builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+//builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IConsultationRepository, ConsultationRepository>();
 builder.Services.AddScoped<IDocAvailabilityRepository, DocAvailabilityRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();

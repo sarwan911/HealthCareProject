@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HealthCareProject.Data;
 using HealthCareProject.Models;
-using HealthCareProject.Repository;
 
 namespace HealthCareProject.Controllers
 {
@@ -29,41 +28,7 @@ namespace HealthCareProject.Controllers
             return await _context.Appointments.ToListAsync();
         }
 
-        // POST: api/Appointments/Book
-        [HttpPost("Book_An_Appointment")]
-        public async Task<IActionResult> BookAppointment(int sessionId, int patientId)
-        {
-            var session = await _context.DocAvailabilities.FindAsync(sessionId);
-            if (session == null)
-            {
-                return BadRequest("Invalid session ID.");
-            }
-
-            var appointment = new Appointment
-            {
-                SessionId = sessionId,
-                PatientId = patientId,
-                Status = "Booked"
-            };
-
-            _context.Appointments.Add(appointment);
-            await _context.SaveChangesAsync();
-
-            var notification = new Notification
-            {
-                UserId = patientId,
-                Type = NotificationType.AppointmentBooked,
-                Message = $"Your appointment is booked with Dr. {session.DoctorId} at {session.Location} on {session.AvailableDate}.",
-                Status = "Booked"
-            };
-
-            _context.Notifications.Add(notification);
-            await _context.SaveChangesAsync();
-
-            return Ok("Appointment booked successfully.");
-        }
-
-        // GET: api/Appointments/{id}
+        // GET: api/Appointments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(int id)
         {
@@ -77,51 +42,49 @@ namespace HealthCareProject.Controllers
             return appointment;
         }
 
-        // PUT: api/Appointments/{appointmentId}/reschedule
-        [HttpPut("{appointmentId}/reschedule")]
-        public async Task<IActionResult> RescheduleAppointment(int appointmentId, int newSessionId)
+        // PUT: api/Appointments/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
         {
-            var appointment = await _context.Appointments.FindAsync(appointmentId);
-            if (appointment == null)
+            if (id != appointment.AppointmentId)
             {
-                return NotFound("Appointment not found.");
+                return BadRequest();
             }
 
-            var newSession = await _context.DocAvailabilities.FindAsync(newSessionId);
-            if (newSession == null)
+            _context.Entry(appointment).State = EntityState.Modified;
+
+            try
             {
-                return BadRequest("Invalid session ID.");
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppointmentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            appointment.SessionId = newSessionId;
-            appointment.Status = "Rescheduled";
-            await _context.SaveChangesAsync();
-
-            var notification = new Notification
-            {
-                UserId = appointment.PatientId,
-                Type = NotificationType.AppointmentRescheduled,
-                Message = $"Your appointment has been rescheduled to {newSession.AvailableDate} at {newSession.Location}.",
-                Status = "Rescheduled"
-            };
-
-            _context.Notifications.Add(notification);
-            await _context.SaveChangesAsync();
-
-            return Ok("Appointment rescheduled successfully.");
+            return NoContent();
         }
 
         // POST: api/Appointments
-        //[HttpPost]
-        //public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
-        //{
-        //    _context.Appointments.Add(appointment);
-        //    await _context.SaveChangesAsync();
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
+        {
+            _context.Appointments.Add(appointment);
+            await _context.SaveChangesAsync();
 
-        //    return CreatedAtAction("GetAppointment", new { id = appointment.AppointmentId }, appointment);
-        //}
+            return CreatedAtAction("GetAppointment", new { id = appointment.AppointmentId }, appointment);
+        }
 
-        // DELETE: api/Appointments/{id}
+        // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id)
         {

@@ -20,7 +20,14 @@ namespace HealthCareProject.Controllers
         {
             _context = context;
         }
+        [HttpPost]
+        public async Task<ActionResult<Consultation>> PostConsultation(Consultation consultation)
+        {
+            _context.Consultations.Add(consultation);
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetConsultation", new { id = consultation.ConsultationId }, consultation);
+        }
         // GET: api/Consultations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Consultation>>> GetConsultations()
@@ -28,7 +35,7 @@ namespace HealthCareProject.Controllers
             return await _context.Consultations.ToListAsync();
         }
 
-        // GET: api/Consultations/{id}
+            // GET: api/Consultations/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Consultation>> GetConsultation(int id)
         {
@@ -42,19 +49,10 @@ namespace HealthCareProject.Controllers
             return consultation;
         }
         
-            // POST: api/Consultations
-            [HttpPost]
-            async Task<ActionResult<Consultation>> PostConsultation(Consultation consultation)
-            {
-                _context.Consultations.Add(consultation);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetConsultation", new { id = consultation.ConsultationId }, consultation);
-            }
 
             // DELETE: api/Consultations/{id}
             [HttpDelete("{id}")]
-            async Task<IActionResult> DeleteConsultation(int id)
+            public  async Task<IActionResult> DeleteConsultation(int id)
             {
                 var consultation = await _context.Consultations.FindAsync(id);
                 if (consultation == null)

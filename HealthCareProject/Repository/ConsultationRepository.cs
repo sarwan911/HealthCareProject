@@ -34,28 +34,25 @@ namespace HealthCareProject.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Consultation> GetByIdAsync(int consultationId)
-        {
-            return await _context.Consultations.FindAsync(consultationId);
-        }
 
         public async Task<List<Consultation>> GetAllAsync()
         {
             return await _context.Consultations.ToListAsync();
         }
-
+        public async Task<Consultation> GetByIdAsync(int consultationId)
+        {
+            return await _context.Consultations.FindAsync(consultationId);
+        }
         public async Task AddAsync(Consultation consultation)
         {
             await _context.Consultations.AddAsync(consultation);
             await _context.SaveChangesAsync();
         }
-
         public async Task UpdateAsync(Consultation consultation)
         {
             _context.Consultations.Update(consultation);
             await _context.SaveChangesAsync();
         }
-
         public async Task DeleteAsync(int consultationId)
         {
             var consultation = await _context.Consultations.FindAsync(consultationId);

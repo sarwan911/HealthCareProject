@@ -30,21 +30,21 @@ namespace HealthCareProject.Data
                 .Property(u => u.Password)
                 .IsRequired();
             // Appointment Table
-            modelBuilder.Entity<Appointment>()
-                .HasKey(a => a.AppointmentId);
-            modelBuilder.Entity<Appointment>()
-                .Property(a => a.Status)
-                .IsRequired();
-            modelBuilder.Entity<Appointment>()
-                .HasOne<User>()
-                .WithMany()
-                .HasForeignKey(a => a.PatientId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Appointment>()
-                .HasOne<User>()
-                .WithMany()
-                //.HasForeignKey(a => a.DoctorId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Appointment>()
+            //    .HasKey(a => a.AppointmentId);
+            //modelBuilder.Entity<Appointment>()
+            //    .Property(a => a.Status)
+            //    .IsRequired();
+            //modelBuilder.Entity<Appointment>()
+            //    .HasOne<User>()
+            //    .WithMany()
+            //    .HasForeignKey(a => a.PatientId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Appointment>()
+            //    .HasOne<User>()
+            //    .WithMany()
+            //    //.HasForeignKey(a => a.DoctorId)
+            //    .OnDelete(DeleteBehavior.Restrict);
             // Consultation Table
             modelBuilder.Entity<Consultation>()
                 .HasKey(c => c.ConsultationId);
@@ -84,9 +84,6 @@ namespace HealthCareProject.Data
             // Notification Table
             modelBuilder.Entity<Notification>()
                 .HasKey(n => n.NotificationId);
-            modelBuilder.Entity<Notification>()
-                .Property(n => n.Type)
-                .IsRequired();
             modelBuilder.Entity<Notification>()
                 .Property(n => n.Message)
                 .IsRequired();
