@@ -6,6 +6,7 @@ namespace HealthCareProject.Models
     public class DocAvailability
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SessionId { get; set; }
         [Required]
         public int DoctorId { get; set; }

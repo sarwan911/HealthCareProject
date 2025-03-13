@@ -6,6 +6,7 @@ namespace HealthCareProject.Models
     public class Consultation
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ConsultationId { get; set; }
         [Required]
         public int AppointmentId { get; set; }

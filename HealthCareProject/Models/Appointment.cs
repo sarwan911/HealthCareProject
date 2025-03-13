@@ -6,6 +6,7 @@ namespace HealthCareProject.Models
     public class Appointment
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AppointmentId { get; set; }
         [Required]
         public int SessionId { get; set; }
